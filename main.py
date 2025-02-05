@@ -116,6 +116,11 @@ def bot_move():
     check_winner()
 
 
+def q_learning_update(state, action, reward, next_state):
+    best_next_q = max(Q.get((next_state, a), 0) for a in get_valid_moves(bot, *action[0])[0])
+    Q[(state, action)] = (1 - alpha) * Q.get((state, action), 0) + alpha * (reward + gamma * best_next_q)
+
+
 def main():
     global selected_piece, valid_moves, winner
     run, turn = True, human
@@ -161,4 +166,3 @@ if __name__ == '__main__':
              [0, 0, 0, 0],
              [1, 0, 1, 0]]
     main()
-
